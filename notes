@@ -1,0 +1,42 @@
+def price_list(request):
+    if request.method == 'POST':
+        # Retrieve the selected customer and airport IDs from the request object
+        customer_id = request.POST['customerprice_id']
+
+        # Retrieve the selected units from the request object
+        currency_unit = request.POST['currency_unit']
+        volume_unit = request.POST['volume_unit']
+
+        customer_airports = CustomerAirport.objects.filter(customer_id=customer_id)
+        fuel_prices = FuelPrice.objects.filter(airport__in=customer_airports.values_list('airport_id', flat=True))
+
+        # Convert fuel prices to the selected currency unit
+        for row in fuel_prices:
+            row.price = convert_currency(row.price, row.currency_unit, currency_unit)
+            row.fee = convert_currency(row.fee, row.currency_unit, currency_unit)
+            row.currency_unit = currency_unit
+
+        # Convert fuel prices to the selected volume unit
+        for row in fuel_prices:
+            row.price = convert_volume(row.price, row.volume_unit, volume_unit)
+            row.fee = convert_volume(row.fee, row.volume_unit, volume_unit)
+            row.volume_unit = volume_unit
+
+        # Calculate total price for each fuel price object
+        for row in fuel_prices:
+            row.total_price = row.price + row.fee
+            row.total_price_format = floatformat(row.total_price, 4)
+
+        context = {'fuel_prices': fuel_prices}
+        return render(request, 'price_list.html', context)
+    else:
+        return HttpResponseRedirect(reverse('index'))
+
+def convert_currency(value, from_unit, to_unit):
+    # Code to convert between currency units
+    return converted_value
+
+def convert_volume(value, from_unit, to_unit):
+    # Code to convert between volume units
+    return converted_value
+

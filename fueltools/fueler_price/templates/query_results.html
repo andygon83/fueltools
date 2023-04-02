@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fueler Price</title>
+</head>
+<body>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% else %}
+        <h1>Query Results</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Airport</th>
+                    <th>Supplier</th>
+                    <th>Price</th>
+                    <th>Fee</th>
+                    <th>Total Price</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in prices %}
+                    <tr>
+                        <td>{{ row.airport_id }}</td>
+                        <td>{{ row.supplier }}</td>
+                        <td>{{ row.price }}</td>
+                        <td>{{ row.fee }}</td>
+                        <td>{{ row.total_price_format }}</td>
+                        <td>{{ row.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        <p><a href="{% url 'index' %}">Return to homepage</a></p>
+    {% endif %}
+</body>
+</html>

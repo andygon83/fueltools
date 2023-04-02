@@ -1,0 +1,50 @@
+Table: airports
+Column name,	Data type,	Description
+icao, VARCHAR, ICAO code for airport
+iata, VARCHAR, IATA code for airport
+name,	VARCHAR,	Name of the airport
+city,	VARCHAR,	City where the airport is located
+state,	VARCHAR,	State where the airport is located
+country,	VARCHAR,	Country where the airport is located
+
+Table: customers
+Column name,	Data type,	Description
+cust_id,	VARCHAR,	Unique identifier for the customer
+name,	VARCHAR,	Name of the customer
+email,	VARCHAR,	Email address of the customer
+
+Table: fuel_prices
+Column name,	Data type,	Description
+id,	INT,	Unique identifier for the fuel price
+airport_id,	INT,	Foreign key referencing the airport table
+date,	DATE,	Date of the fuel price
+supplier,	VARCHAR,	Type of fuel
+price,	DECIMAL,	Price per gallon of fuel
+fee,	DECIMAL,	Additional fee charged by the airport
+note,	VARCHAR,	Additional notes about the fuel price
+other_variable,	DECIMAL,	Other fuel price-related variable
+
+Table: customer_airports
+Column name,	Data type,	Description
+id,	INT,	Unique identifier for the customer airport association
+customer_id,	INT,	Foreign key referencing the customer table
+airport_id,	INT,	Foreign key referencing the airport table
+
+
+## For example, to generate a price list for a customer with ID 1, you could use a query like this:
+
+SELECT a.iata AS airport_name, fp.fuel_type, fp.price, fp.fee, fp.note, fp.other_variable
+FROM airports a
+JOIN fuel_prices fp ON a.id = fp.airport_id
+JOIN customer_airports ca ON a.id = ca.airport_id
+WHERE ca.customer_id = 1
+ORDER BY a.name, fp.fuel_type
+
+
+### To retrieve historical pricing information for an airport, you could use a query that selects all rows from the fuel_prices table where the airport_id matches the ID of the airport you're interested in, ordered by date in descending order. For example, to retrieve the five most recent fuel prices for airport ID 1234, you could use a query like this:
+
+SELECT *
+FROM fuel_prices
+WHERE airport_id = 1234
+ORDER BY date DESC
+LIMIT 5

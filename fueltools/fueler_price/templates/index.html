@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fueler Price</title>
+</head>
+<body>
+    <h1>Welcome to Fueler Price v2</h1>
+    <h3><a href="{% url 'upload_file' %}"">Update the Database</a></h3>
+    <!-- <form method="POST" enctype="multipart/form-data" action="{% url 'upload_file' %}">
+        {% csrf_token %}
+        <label for="csv_file">Upload CSV file:</label>
+        <input type="file" name="csv_file" id="csv_file" accept=".csv">
+        <span id="file_error"></span>
+        <button type="submit">Upload</button>
+    </form> -->
+
+    <form action="{% url 'query_results' %}" method="post">
+        {% csrf_token %}
+        <label for="customer">Select a customer:</label>
+        <select id="customer" name="customer_id">
+            {% if customers %}
+                {% for customer in customers %}
+                    <option value="{{ customer.cust_id }}">{{ customer.cust_id }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="">No customers found.</option>
+            {% endif %}
+        </select>
+        
+        <label for="airport">Select an airport:</label>
+        <select id="airport" name="airport_id">
+            {% if airports %}
+                {% for airport in airports %}
+                    <option value="{{ airport.icao }}">{{ airport.icao }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="">No airports found.</option>
+            {% endif %}
+        </select>
+        
+        <button type="submit">Query Prices</button>
+    </form>
+
+    <h4>Generate Price lists by Customer</h4>
+    <form action="{% url 'price_list' %}" method="post">
+        {% csrf_token %}
+        <label for="customerprice">Select a customer:</label>
+        <select id="customerprice" name="customerprice_id">
+            {% if customers %}
+                {% for customer in customers %}
+                    <option value="{{ customer.cust_id }}">{{ customer.cust_id }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="">No customers found.</option>
+            {% endif %}
+        </select>
+        <button type="submit">Generate Price List</button>
+    </form>
+
+
+</body>
+</html>

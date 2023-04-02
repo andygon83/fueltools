@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:latest
+    env_file:
+      - .env
+    volumes:
+      - 360db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - fuelnetwork
+
+  django:
+    image: django-docker:latest
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - .:/fueltools
+    networks:
+      - fuelnetwork
+    
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - '8080:80'
+    env_file:
+      - .env
+    networks:
+      - fuelnetwork
+
+
+volumes:
+  360db:
+
+networks:
+  fuelnetwork:

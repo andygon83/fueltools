@@ -1,0 +1,9 @@
+*.pyc
+*.pyo
+*.pyd
+
+fpvenv/
+fueltools/fueltools/
+fueltools/.env
+Pipfile.lock
+testfiles/

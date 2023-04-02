@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Fueler Price</title>
+    </head>
+    <body>
+      <h2>Update Fuel Prices</h2>
+        <div>
+            <h3>Single Price Update</h3>
+            <p>Dates in YYYY-MM-DD format please.</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                {{ sing_fuel_price_form.as_p}}
+                <button type="submit">Add Entry/Update</button>
+            </form>
+        </div>
+        <div>
+            <h3>Mass Price Update From File</h3>
+            <h4>File imports expects .csv files with exactly these headings: ICAO, Date, Supplier, Price, Fee, Note, Other Variables</h4>
+            <p>Dates in YYYY-MM-DD format please.</p>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ fuel_price_form.as_p }}
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <h2>Update Airport List</h2>
+        <div>
+            <h3>Single Airport Update</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ sing_airport_form.as_p}}
+                <button type="submit">Add Entry/Update</button>
+            </form>
+        </div>
+        <div>
+            <h3>Mass Airport Update From File</h3>
+            <h4>Expects .csv files with exactly these headings: ICAO, IATA, Name, City, State, Country</h4>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ airport_form.as_p }}
+                <button type="submit">Upload</button>
+            </form>
+        </div>  
+
+        <h2>Update Customer List</h2>
+        <div>
+            <h3>Single Customer Update</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ sing_customer_form.as_p}}
+                <button type="submit">Add Entry/Update</button>
+            </form>
+        </div>
+        <div>
+            <h3>Mass Customer Update From File</h3>
+            <h4>Expects .csv files with exactly these headings: Customer Code, Name , Email</h4>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ customer_form.as_p }}
+                <button type="submit">Upload</button>
+            </form>
+        </div>  
+
+        <h2>Update Customer-Airport Relationshiops</h2>
+        <div>
+            <h3>Single Customer-Airport Update</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ sing_custair_form.as_p}}
+                <button type="submit">Add Entry/Update</button>
+            </form>
+        </div>
+        <div>
+            <h3>Mass Customer-Airport Relationship Update From File</h3>
+            <h4>Expects .csv files with exactly one column: First row is Customer Code, every row thereafter are their stations in ICAO code</h4>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ custair_form.as_p }}
+                <button type="submit">Upload</button>
+            </form>
+        </div>  
+
+        <p><a href="{% url 'index' %}">Return to homepage</a></p>
+    </body>
+</html>
+
+
+
